@@ -1,21 +1,28 @@
 import "./style.css";
 
-const appElement = document.getElementById("app");
-const boardElement = document.getElementById("board");
-const ROW_COUNT = 3;
-const COL_COUNT = 3;
+const appElement: Element | null = document.getElementById("app");
+const boardElement: Element | null = document.getElementById("board");
+const ROW_COUNT: number = 3;
+const COL_COUNT: number = 3;
 
-let boardState = [
+type Cell = "X" | "O" | ""
+type TicTacToeBoard = [
+  [Cell, Cell, Cell],
+  [Cell, Cell, Cell],
+  [Cell, Cell, Cell]
+]
+
+let boardState: TicTacToeBoard = [
   ["", "", ""],
   ["", "", ""],
   ["", "", ""]
 ];
-let currentMove = "X";
-let gameOver = false;
-let moveCount = 0;
+let currentMove: "X" | "O" = "X";
+let gameOver: boolean = false;
+let moveCount: number = 0;
 
-function createCell(row: number, col: number, content = "") {
-  const cell = document.createElement("button");
+function createCell(row: number, col: number, content: Cell = "") {
+  const cell: Element = document.createElement("button");
   cell.setAttribute("data-row", row.toString());
   cell.setAttribute("data-col", col.toString());
   cell.setAttribute("data-content", content);
@@ -39,11 +46,11 @@ function renderBoard() {
       boardElement.appendChild(createCell(i, j, boardState[i][j]));
     }
   }
-  const oldMoveElement = document.getElementById("move-element");
+  const oldMoveElement: Element | null = document.getElementById("move-element");
   if (oldMoveElement) {
     oldMoveElement.remove();
   }
-  const moveElement = document.createElement("p");
+  const moveElement: HTMLParagraphElement = document.createElement("p");
   moveElement.id = "move-element";
   moveElement.innerText = `Next Move: ${currentMove}`;
   moveElement.classList.add("current-move");
@@ -68,7 +75,7 @@ function init() {
 }
 
 function checkWinCondition() {
-  const [tl, tm, tr, ml, mm, mr, bl, bm, br] = [
+  const [tl, tm, tr, ml, mm, mr, bl, bm, br]: string[] = [
     boardState[0][0], boardState[0][1], boardState[0][2],  // Top row: left, middle, right
     boardState[1][0], boardState[1][1], boardState[1][2],  // Middle row: left, middle, right
     boardState[2][0], boardState[2][1], boardState[2][2]   // Bottom row: left, middle, right
